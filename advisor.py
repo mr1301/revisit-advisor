@@ -75,20 +75,24 @@ formatted_csv_filepath = csv_filepath.split("../")[1]
 
 
 # TODO: further revise the example outputs below to reflect real information
-print("-----------------")
-print(f"STOCK SYMBOL: {symbol}")
-print("RUN AT: ", now.strftime("%Y-%m-%d"), now.strftime("%H:%M:%S"))
-print("-----------------")
-print(f"LATEST DAY OF AVAILABLE DATA: {last_refreshed}")
-print(f"LATEST DAILY CLOSING PRICE: {to_usd(float(latest_price_usd))}")
-print(f"RECENT HIGH:{to_usd(float(recent_high))} ")
-print(f"RECENT LOW: {to_usd(float(recent_low))}")
-print("-----------------")
-print("RECOMMENDATION: Buy!")
-print("RECOMMENDATION REASON: Because the latest closing price is within threshold XYZ etc., etc. and this fits within your risk tolerance etc., etc.")
-print("-----------------")
-print(f"WRITING DATA TO CSV {csv_file_path}")
-print("-----------------")
-print(" HAPPY INVESTING!")
-print("-----------------")
-© 2019 GitHub, Inc.
+print("BECAUSE: TODO") # TODO
+print(f"WRITING DATA TO CSV: {formatted_csv_filepath}")
+print("-------------------------")
+print("HAPPY INVESTING!")
+print("-------------------------")
+print("-------------------------")
+print(f"SYMBOL: {symbol}")
+print("-------------------------")
+print(f"REQUEST AT: {formatted_time_now}")
+print(f"REFRESH DATE: {last_refreshed}")
+print("-------------------------")
+print(f"RECENT HIGH:  {to_usd(recent_high)}")
+print(f"LATEST CLOSE: {to_usd(latest_close)}")
+print(f"RECENT LOW:   {to_usd(recent_low)}")
+print("-------------------------")
+print("RECOMMENDATION: TODO") # TODO
+print("BECAUSE: TODO") # TODO
+print(f"WRITING DATA TO CSV: {formatted_csv_filepath}")
+print("-------------------------")
+print("HAPPY INVESTING!")
+print("-------------------------")
