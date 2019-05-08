@@ -24,11 +24,11 @@ def get_response(symbol):
   parsed_response = json.loads(response.text)
   return parsed_response
 
+table_rows =[]
 def decipher_response(parsed_response):
   tsd = parsed_response["Time Series (Daily)"] #short for time series daily
-  table_rows =[]
-  for date,daily prices in tsd.itmes():
-    rows = {
+  for date, daily_prices in tsd.items():
+    row = {
           "timestamp": date,
           "open": float(daily_prices["1. open"]),
           "high": float(daily_prices["2. high"]),
@@ -37,7 +37,7 @@ def decipher_response(parsed_response):
           "volume": int(daily_prices["5. volume"])
     }
     table_rows.append(row)
-
+  return table_rows
 
 
 symbol = input("Please specify a stock symbol: ")
