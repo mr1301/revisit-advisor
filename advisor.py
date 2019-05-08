@@ -7,45 +7,41 @@ import os
 import datetime
 
 #TODO datetime module
-
-
 now = datetime.datetime.now()
 #print("CHECK OUT AT", now.strftime("%Y-%m-%d"), now.strftime("%H:%M:%S"))
-
-
-
 #TODO: create dollar conversion function
-
 def to_usd(my_price):
   return "${0:,.2f}".format(my_price)
 
-#TODO loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
-load_dotenv()
 
-# see: https://www.alphavantage.co/support/#api-key
-api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
-#print("API KEY: " + api_key)
+
+load_dotenv()  #loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
+api_key = os.environ.get("ALPHAVANTAGE_API_KEY") # see: https://www.alphavantage.co/support/#api-key
+
+def get_response(symbol):
+  request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey=(api_key"
+  response = requests.get(request_url)
+  parsed_response = json.loads(response.text)
+  return parsed_response
+
 
 symbol = input("Please specify a stock symbol: ")
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
 
-request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey=(api_key"
 
 # TODO: use the "requests" package to issue a "GET" request to the specified url, and store the JSON response in a variable...
 
-response = requests.get(request_url)
+
 #print(type(response))       # <class 'requests.models.Response'>
 #print(response.status_code) #200
 #print(response.text)        #str
 
 
-
-
 # TODO: further parse the JSON response...
 
-parsed_response = json.loads(response.text)
+
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 
 
@@ -103,9 +99,6 @@ with open(csv_file_path, "w") as csv_file:  # "w" means "open the file for writi
     #writer.writerow({"city": "New York", "name": "Mets"})
     #writer.writerow({"city": "Boston", "name": "Red Sox"})
     #writer.writerow({"city": "New Haven", "name": "Ravens"})
-
-
-
 
 
 # TODO: further revise the example outputs below to reflect real information
