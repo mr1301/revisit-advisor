@@ -6,10 +6,7 @@ import json
 import os
 import datetime
 
-#TODO datetime module
 
-#print("CHECK OUT AT", now.strftime("%Y-%m-%d"), now.strftime("%H:%M:%S"))
-#TODO: create dollar conversion function
 
 def to_usd(my_price):
   return "${0:,.2f}".format(my_price)
@@ -25,30 +22,36 @@ def get_response(symbol):
   parsed_response = json.loads(response.text)
   return parsed_response
 
+
+
 table_rows =[]
 def decipher_response(parsed_response):
   tsd = parsed_response["Time Series (Daily)"] #short for time series daily
   for date, daily_prices in tsd.items():
     row = {
-          "timestamp": date,
-          "open": float(daily_prices["1. open"]),
-          "high": float(daily_prices["2. high"]),
-          "low": float(daily_prices["3. low"]),
-          "close": float(daily_prices["4. close"]),
-          "volume": int(daily_prices["5. volume"])
+        "timestamp": date,
+        "open": float(daily_prices["1. open"]),
+        "high": float(daily_prices["2. high"]),
+        "low": float(daily_prices["3. low"]),
+        "close": float(daily_prices["4. close"]),
+        "volume": int(daily_prices["5. volume"])
     }
     table_rows.append(row)
   return table_rows
 
+
+
+
 def write_to_csv(rows,csv_filepath):
+
   csv_headers = ["timestamp", "open", "high", "low", "close", "volume"] #list of dictionaries
   
-  with open(csv_file_path, "w") as csv_file:  # "w" means "open the file for writing"
-    writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
-    writer.writeheader()  # uses fieldnames set above
-    for row in table_rows:
-      writer.writerrow(row)
-    write_to_csv(table_rows,csv_file_path)
+  with open(csv_filepath, "w") as csv_file:  # "w" means "open the file for writing"
+      writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
+      writer.writeheader()  # uses fieldnames set above
+      for row in table_rows:
+        writer.writerow(row)
+
   return True
 
 if __name__ == "__main__":
@@ -61,38 +64,32 @@ if __name__ == "__main__":
   table_rows = decipher_response(parsed_response)
 
   latest_price = table_rows[0]["close"]
-  high_prices =[row[high] for row in table_rows]
-  low_prices =[row[low] for row in table_rows]
+  high_prices =[row["high"] for row in table_rows]
+  low_prices =[row["low"] for row in table_rows]
   recent_high =max(high_prices)
   recent_low =min(low_prices)
   #OUTPUTS
-  csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv") # TODO: write response data to a CSV file #csv_file_path = "data/prices.csv"  # a relative filepath
-  write_to_csv(rows,csv_filepath)
+  csv_filepath = os.path.join(os.path.dirname(__file__), "..", "revisit-advisor", "prices4.csv") # TODO: write response data to a CSV file #csv_file_path = "data/prices.csv"  # a relative filepath
+  write_to_csv(table_rows,csv_filepath)
 
-format_time =now.strftime("%Y-%m-%d %H:%M:%S")
-formatted_csv_filepath = csv_filepath.split("../")[1]
-
+  format_time =now.strftime("%Y-%m-%d %H:%M:%S")
+  formatted_csv_filepath = csv_filepath.split("../")[1]
 
 
 # TODO: further revise the example outputs below to reflect real information
-print("BECAUSE: TODO") # TODO
-print(f"WRITING DATA TO CSV: {formatted_csv_filepath}")
-print("-------------------------")
-print("HAPPY INVESTING!")
-print("-------------------------")
-print("-------------------------")
-print(f"SYMBOL: {symbol}")
-print("-------------------------")
-print(f"REQUEST AT: {formatted_time_now}")
-print(f"REFRESH DATE: {last_refreshed}")
-print("-------------------------")
-print(f"RECENT HIGH:  {to_usd(recent_high)}")
-print(f"LATEST CLOSE: {to_usd(latest_close)}")
-print(f"RECENT LOW:   {to_usd(recent_low)}")
-print("-------------------------")
-print("RECOMMENDATION: TODO") # TODO
-print("BECAUSE: TODO") # TODO
-print(f"WRITING DATA TO CSV: {formatted_csv_filepath}")
-print("-------------------------")
-print("HAPPY INVESTING!")
-print("-------------------------")
+  print("-------------------------")
+  print(f"SYMBOL: {symbol}")
+  print("-------------------------")
+  print(f"REQUEST AT: {format_time}")
+  print(f"REFRESH DATE: {last_refreshed}")
+  print("-------------------------")
+  print(f"RECENT HIGH:  {to_usd(recent_high)}")
+  print(f"LATEST CLOSE: {to_usd(latest_price)}")
+  print(f"RECENT LOW:   {to_usd(recent_low)}")
+  print("-------------------------")
+  print("RECOMMENDATION: Buy the stock") # TODO
+  print("BECAUSE: the stock will continue growing & has great market power!") 
+  print(f"WRITING DATA TO CSV: {formatted_csv_filepath}")
+  print("-------------------------")
+  print("HAPPY INVESTING!")
+  print("-------------------------")
