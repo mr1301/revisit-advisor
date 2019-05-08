@@ -69,7 +69,8 @@ if __name__ == "__main__":
   csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv") # TODO: write response data to a CSV file #csv_file_path = "data/prices.csv"  # a relative filepath
   write_to_csv(rows,csv_filepath)
 
-format_time =now.strftime
+format_time =now.strftime("%Y-%m-%d %H:%M:%S")
+formatted_csv_filepath = csv_filepath.split("../")[1]
 
 
 
