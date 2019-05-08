@@ -24,16 +24,17 @@ def get_response(symbol):
   parsed_response = json.loads(response.text)
   return parsed_response
 
+def decipher_response(parsed_response):
+  tsd = parsed_response["Time Series (Daily)"] #short for time series daily
+
+
+
 
 symbol = input("Please specify a stock symbol: ")
 
 # see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
 # TODO: assemble the request url to get daily data for the given stock symbol...
-
-
 # TODO: use the "requests" package to issue a "GET" request to the specified url, and store the JSON response in a variable...
-
-
 #print(type(response))       # <class 'requests.models.Response'>
 #print(response.status_code) #200
 #print(response.text)        #str
@@ -48,7 +49,6 @@ last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 # TODO: traverse the nested response data structure to find the latest closing price and other values of interest...
 
 
-tsd = parsed_response["Time Series (Daily)"] #short for time series daily
 
 dates = list(tsd.keys()) #create list from tsd date keys, and sort to ensure latest day is first.
 latest_day =  dates[0] #make dynamic
