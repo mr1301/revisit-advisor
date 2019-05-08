@@ -52,28 +52,24 @@ def write_to_csv(rows,csv_filepath):
   return True
 
 if __name__ == "__main__":
+  #INPUTS
+  now = datetime.datetime.now()
+  symbol = input("please input symbol")
+  parsed_response = get_response(symbol)# TODO: further parse the JSON response...
 
-now = datetime.datetime.now()
-#format_time =now.strftime
-#format_time = now.strftime()
+  last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
+  table_rows = decipher_response(parsed_response)
 
-#INPUTS
-symbol = input("please input symbol")
-parsed_response = get_response(symbol)# TODO: further parse the JSON response...
+  latest_price = table_rows[0]["close"]
+  high_prices =[row[high] for row in table_rows]
+  low_prices =[row[low] for row in table_rows]
+  recent_high =max(high_prices)
+  recent_low =min(low_prices)
+  #OUTPUTS
+  csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv") # TODO: write response data to a CSV file #csv_file_path = "data/prices.csv"  # a relative filepath
+  write_to_csv(rows,csv_filepath)
 
-last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
-table_rows = decipher_response(parsed_response)
-
-latest_price = table_rows[0]["close"]
-high_prices =[row[high] for row in table_rows]
-low_prices =[row[low] for row in table_rows]
-recent_high =max(high_prices)
-recent_low =min(low_prices)
-
-#OUTPUTS
-csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv") # TODO: write response data to a CSV file #csv_file_path = "data/prices.csv"  # a relative filepath
-write_to_csv(rows,csv_filepath)
-
+format_time =now.strftime
 
 
 
