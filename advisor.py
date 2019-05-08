@@ -7,9 +7,10 @@ import os
 import datetime
 
 #TODO datetime module
-now = datetime.datetime.now()
+
 #print("CHECK OUT AT", now.strftime("%Y-%m-%d"), now.strftime("%H:%M:%S"))
 #TODO: create dollar conversion function
+
 def to_usd(my_price):
   return "${0:,.2f}".format(my_price)
 
@@ -17,9 +18,9 @@ def to_usd(my_price):
 
 load_dotenv()  #loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY") # see: https://www.alphavantage.co/support/#api-key
-
+symbol = MSFT
 def get_response(symbol):
-  request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey=(api_key"
+  request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
   response = requests.get(request_url)
   parsed_response = json.loads(response.text)
   return parsed_response
@@ -39,18 +40,32 @@ def decipher_response(parsed_response):
     table_rows.append(row)
   return table_rows
 
+def write_to_csv(rows,csv_filepath):
+  csv_headers = ["timestamp", "open", "high", "low", "close", "volume"] #list of dictionaries
+  
+  with open(csv_file_path, "w") as csv_file:  # "w" means "open the file for writing"
+    writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
+    writer.writeheader()  # uses fieldnames set above
+    for row in table_rows:
+      writer.writerrow(row)
+    write_to_csv(table_rows,csv_file_path)
+  return True
 
-symbol = input("Please specify a stock symbol: ")
+if __name__ == "__main__":
 
-# see: https://www.alphavantage.co/documentation/#daily (or a different endpoint, as desired)
-# TODO: assemble the request url to get daily data for the given stock symbol...
-# TODO: use the "requests" package to issue a "GET" request to the specified url, and store the JSON response in a variable...
-#print(type(response))       # <class 'requests.models.Response'>
-#print(response.status_code) #200
-#print(response.text)        #str
+now = datetime.datetime.now()
+#format_time =now.strftime
+#format_time = now.strftime()
 
+#Inputs
+parsed_response = get_response(symbol)# TODO: further parse the JSON response...
+table_rows + decipher_response(parsed_response)
+latest_price = table_rows[0]["close"]
+high_prices =[row[high] for row in table_rows]
+low_prices =[row[low] for row in table_rows]
+recent_high =max(high_prices)
+recent_low =min(low_prices)
 
-# TODO: further parse the JSON response...
 
 
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
@@ -63,21 +78,8 @@ last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 dates = list(tsd.keys()) #create list from tsd date keys, and sort to ensure latest day is first.
 latest_day =  dates[0] #make dynamic
 
-latest_price_usd = tsd[latest_day]["4. close"]
 
 #TODO get high price for each day
-
-high_prices = []
-low_prices =[]
-
-for date in dates:
-  high_price = tsd[date]["2. high"]
-  low_price = tsd[date]["3. low"]
-  high_prices.append(float(high_price))
-  low_prices.append(float(low_price))
-
-recent_high = max(high_prices)
-recent_low = min(low_prices)
 
 
 # INFO OUTPUTS
@@ -89,11 +91,9 @@ recent_low = min(low_prices)
 
 csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
 
-csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
 
-with open(csv_file_path, "w") as csv_file:  # "w" means "open the file for writing"
-    writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
-    writer.writeheader()  # uses fieldnames set above
+
+
     for date in dates:#loop through each day
        daily_prices =tsd[date]
        writer.writerow({
