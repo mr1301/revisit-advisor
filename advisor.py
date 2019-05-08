@@ -18,7 +18,7 @@ def to_usd(my_price):
 
 load_dotenv()  #loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY") # see: https://www.alphavantage.co/support/#api-key
-symbol = MSFT
+
 def get_response(symbol):
   request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
   response = requests.get(request_url)
@@ -58,17 +58,21 @@ now = datetime.datetime.now()
 #format_time = now.strftime()
 
 #Inputs
+symbol = input("please input symbol")
 parsed_response = get_response(symbol)# TODO: further parse the JSON response...
-table_rows + decipher_response(parsed_response)
+
+last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
+table_rows = decipher_response(parsed_response)
+
 latest_price = table_rows[0]["close"]
 high_prices =[row[high] for row in table_rows]
 low_prices =[row[low] for row in table_rows]
 recent_high =max(high_prices)
 recent_low =min(low_prices)
 
+outputs
 
 
-last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 
 
 # TODO: traverse the nested response data structure to find the latest closing price and other values of interest...
