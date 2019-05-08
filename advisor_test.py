@@ -1,6 +1,24 @@
 import os
 import pytest
-from advisor import to_usd, decipher_response
+from advisor import to_usd, decipher_response, get_response
+
+CI_ENV = os.environ.get("CI") == "true" # expect default environment variable setting of "CI=true" on Travis CI, see: https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
+
+@pytest.mark.skipif(CI_ENV==True, reason="to avoid configuring credentials on, and issuing requests from, the CI server")
+
+def test_get_response():
+    symbol = "AMZN"
+    parsed_response = get_response(symbol)
+
+    assert isinstance(parsed_response, dict)
+    assert "Meta Data" in parsed_response.keys()
+    assert "Time Series (Daily)" in parsed_response.keys()
+    assert parsed_response["Meta Data"]["2. Symbol"] == symbol
+
+
+
+
+
 
 def test_to_usd():
     assert to_usd(5) == "$5.00"
