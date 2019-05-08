@@ -26,7 +26,17 @@ def get_response(symbol):
 
 def decipher_response(parsed_response):
   tsd = parsed_response["Time Series (Daily)"] #short for time series daily
-
+  table_rows =[]
+  for date,daily prices in tsd.itmes():
+    rows = {
+          "timestamp": date,
+          "open": float(daily_prices["1. open"]),
+          "high": float(daily_prices["2. high"]),
+          "low": float(daily_prices["3. low"]),
+          "close": float(daily_prices["4. close"]),
+          "volume": int(daily_prices["5. volume"])
+    }
+    table_rows.append(row)
 
 
 
