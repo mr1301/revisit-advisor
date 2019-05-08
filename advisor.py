@@ -57,7 +57,7 @@ now = datetime.datetime.now()
 #format_time =now.strftime
 #format_time = now.strftime()
 
-#Inputs
+#INPUTS
 symbol = input("please input symbol")
 parsed_response = get_response(symbol)# TODO: further parse the JSON response...
 
@@ -70,49 +70,11 @@ low_prices =[row[low] for row in table_rows]
 recent_high =max(high_prices)
 recent_low =min(low_prices)
 
-outputs
+#OUTPUTS
+csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv") # TODO: write response data to a CSV file #csv_file_path = "data/prices.csv"  # a relative filepath
+write_to_csv(rows,csv_filepath)
 
 
-
-
-# TODO: traverse the nested response data structure to find the latest closing price and other values of interest...
-
-
-
-dates = list(tsd.keys()) #create list from tsd date keys, and sort to ensure latest day is first.
-latest_day =  dates[0] #make dynamic
-
-
-#TODO get high price for each day
-
-
-# INFO OUTPUTS
-#
-
-# TODO: write response data to a CSV file
-
-#csv_file_path = "data/prices.csv"  # a relative filepath
-
-csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
-
-
-
-
-    for date in dates:#loop through each day
-       daily_prices =tsd[date]
-       writer.writerow({
-          "timestamp": date,
-          "open": daily_prices["1. open"],
-          "high": daily_prices["2. high"],
-           "low": daily_prices["3. low"],
-           "close": daily_prices["4. close"],
-           "volume": daily_prices["5. volume"]
-          })
-
-
-    #writer.writerow({"city": "New York", "name": "Mets"})
-    #writer.writerow({"city": "Boston", "name": "Red Sox"})
-    #writer.writerow({"city": "New Haven", "name": "Ravens"})
 
 
 # TODO: further revise the example outputs below to reflect real information
