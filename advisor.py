@@ -14,7 +14,12 @@ def to_usd(my_price):
 
 
 load_dotenv()  #loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
-api_key = os.environ.get("ALPHAVANTAGE_API_KEY") # see: https://www.alphavantage.co/support/#api-key
+
+def compile_url(symbol):
+  symbol = input("please state symbol")
+  api_key = os.environ.get("ALPHAVANTAGE_API_KEY") # see: https://www.alphavantage.co/support/#api-key
+  request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
+  
 
 def get_response(symbol):
   request_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}"
@@ -22,6 +27,8 @@ def get_response(symbol):
   parsed_response = json.loads(response.text)
   return parsed_response
 
+def float_conversion(x):
+  float(x)
 
 
 table_rows =[]
@@ -38,8 +45,7 @@ def decipher_response(parsed_response):
     }
     table_rows.append(row)
   return table_rows
-
-
+  
 
 
 def write_to_csv(rows,csv_filepath):

@@ -1,6 +1,6 @@
 import os
 import pytest
-from advisor import to_usd, decipher_response, get_response, write_to_csv, float_conversion
+from advisor import to_usd, decipher_response, get_response, write_to_csv, float_conversion, compile_url
 
 CI_ENV = os.environ.get("CI") == "true" # expect default environment variable setting of "CI=true" on Travis CI, see: https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
 
@@ -83,3 +83,7 @@ def test_write_to_csv():
     assert os.path.isfile(csv_filepath) == True
     assert "timestamp" in example_content[0]
     assert  "101.0924" in example_content[0]["open"]
+
+    #def test_compile_url():
+        #request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" + "symbol" + "&apikey=" + "api_key"
+        #assert "symbol" in request_url
