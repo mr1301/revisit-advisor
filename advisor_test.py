@@ -18,6 +18,7 @@ def test_get_response():
 
 def test_to_usd():
     assert to_usd(5) == "$5.00"
+    assert to_usd(5.888) == "$5.89"
 
 def test_float_conversion():
     assert float("5.6500") == 5.6500
