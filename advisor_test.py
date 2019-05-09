@@ -78,3 +78,4 @@ def test_write_to_csv():
     assert result == True
     assert os.path.isfile(csv_filepath) == True
     assert "timestamp" in example_content[0]
+    assert  "101.0924" in example_content[0]["open"]
