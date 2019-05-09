@@ -1,6 +1,6 @@
 import os
 import pytest
-from advisor import to_usd, decipher_response, get_response, write_to_csv
+from advisor import to_usd, decipher_response, get_response, write_to_csv, float_conversion
 
 CI_ENV = os.environ.get("CI") == "true" # expect default environment variable setting of "CI=true" on Travis CI, see: https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
 
@@ -18,6 +18,9 @@ def test_get_response():
 
 def test_to_usd():
     assert to_usd(5) == "$5.00"
+
+def test_float_conversion():
+    assert float("5.6500") == 5.6500
 
 def test_decipher_response():
     parsed_response = {
