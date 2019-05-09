@@ -37,11 +37,11 @@ License file
 Copyright
 This product is licensed under the MIT licesne, see lincense file for reference.
 
-Troubleshooting & knownbugs
+Troubleshooting & known bugs
 All the pytest run for this file where successful.  A manual test was conducted to check url collected, but an automatic test could be a bug because of having to use the API Key in the test, and not having an effective way of testing the API key without revealing it.
 
 Author 
 Mercy Radithupa
 
-Credits &acknowledgments
+Credits & acknowledgments
 This assignment could not have been completed without the help and guidance of Prof. Rossetti's lectures, videos and examples. In particular for the pytesting this source was helpful: https://github.com/s2t2/robo-advisor-screencast/pull/1/files.
