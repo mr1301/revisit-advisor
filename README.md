@@ -1,7 +1,7 @@
 # revisit-advisor
 This robot advisor pulls up a stock from the alphavantage API and gives a summary of the stock's performance before making a recommedation on whether the user should buy, hold or sell the stock. The recommendations are simplistic, and based on the author's individual opiions about the stock. The recommendations are considered professional investing advise and should not be taken as representation, but a simple statement of the author's personal evaluation of the stock.
 
-configuration
+Configuration
 To configure you will need
 1. An API key from alphavantage https://www.alphavantage.co/support/#api-key
 2. Some popular stocks you might like
@@ -36,9 +36,10 @@ License file
 
 Copyright
 This product is licensed under the MIT licesne, see lincense file for reference.
-Troubleshooting & knownbugs
 
+Troubleshooting & knownbugs
 All the pytest run for this file where successful.  A manual test was conducted to check url collected, but an automatic test could be a bug because of having to use the API Key in the test, and not having an effective way of testing the API key without revealing it.
+
 Author 
 Mercy Radithupa
 
